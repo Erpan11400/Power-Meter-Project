@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+    --spacing: 1px;
+
+    --color-cGreen1: #028C00;
+    --color-cGreen2: #7CFF79;
+    --color-cYellow: #FFE944;
+    --color-cRed: #FF0000;
+
+    --text-title: 24px;
+    --text-titlePage: 20px:
+}
+
+@utility hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.navbar-transition {
+    transition: all .3s ease;
+}
+
+.navbar-hover:hover {
+    background: linear-gradient(to right, #FFFFFF, color-mix(in srgb, var(--color-cGreen1) 40%, transparent));
+}
+
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
