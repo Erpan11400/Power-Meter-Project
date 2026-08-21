@@ -4,6 +4,7 @@ import Summary from "../components/Summary"
 import DepartmentList from "../components/DepartmentList"
 import AreaList from "../components/AreaList"
 import PowerMeterList from "../components/PowerMeterList"
+import { LuDownload } from "react-icons/lu"
 
 export default function Dashboard() {
   return (
@@ -20,6 +21,10 @@ export default function Dashboard() {
           <div className="flex items-center gap-5 px-20 py-7 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-full">
             <HiOutlineRefresh size={22} />
             <p>Refresh</p>
+          </div>
+          <div className="flex items-center gap-5 px-20 py-7 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-full">
+            <p>Download</p>
+            <LuDownload size={22} />
           </div>
         </div>
       </article>

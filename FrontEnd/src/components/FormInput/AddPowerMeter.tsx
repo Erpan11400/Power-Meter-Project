@@ -1,9 +1,14 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
-export default function AddPowerMeter() {
+interface props {
+    setType: Dispatch<SetStateAction<string>>
+    doubleCheck: () => void
+}
+
+export default function AddPowerMeter({ setType, doubleCheck }: props) {
     // Get dari database
-    const [percentage, setPercentage] = useState(20)
+    const [remainingPercentage, setRemainingPercentage] = useState(20)
     const [maxCode, setMaxCode] = useState(15)
     const [maxName, setMaxName] = useState(15)
     // Get data berdasarkan database
@@ -26,9 +31,9 @@ export default function AddPowerMeter() {
         else if (name === 'pmName') setMaxName(15 - value.length)
     }
 
-    useEffect(() => {
-        console.log(pmInput)
-    }, [pmInput])
+    // useEffect(() => {
+    //     console.log(pmInput)
+    // }, [pmInput])
 
     return (
         <>
@@ -49,7 +54,7 @@ export default function AddPowerMeter() {
             <div className="mb-30">
                 <div className="flex justify-between">
                     <p>Power Meter Code</p>
-                    <input type="text" name="pmCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={pmInput.pmCode} onChange={onChangeInput} />
+                    <input type="text" name="pmCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={pmInput.pmCode} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxCode > 14 ? (<p className="text-end text-xs">Max Letter: {maxCode}</p>) : maxCode > 5 ? (<p className="text-end text-xs">{maxCode} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxCode} Letter Left</p>)
@@ -58,7 +63,7 @@ export default function AddPowerMeter() {
             <div className="mb-30">
                 <div className="flex justify-between">
                     <p>Power Meter Name</p>
-                    <input type="text" name="pmName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={pmInput.pmName} onChange={onChangeInput} />
+                    <input type="text" name="pmName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={pmInput.pmName} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxName > 14 ? (<p className="text-end text-xs">Max Letter: {maxName}</p>) : maxName > 5 ? (<p className="text-end text-xs">{maxName} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxName} Letter Left</p>)
@@ -77,12 +82,15 @@ export default function AddPowerMeter() {
                             <input type="number" name="allocation_power" min={0} max={100} className='w-85 px-10 py-2 bg-white border-2 border-cGreen1 rounded-xl outline-none text-sm' value={pmInput.allocation_power} onChange={onChangeInput} />
                             <span className='absolute right-32'>%</span>
                         </div>
-                        <p className="text-end text-black/30 text-xs">{percentage} % left</p>
+                        <p className="text-end text-black/30 text-xs">{remainingPercentage} % left</p>
                     </div>
                 )
             }
             <div className="flex justify-end">
-                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl">
+                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl" onClick={() => {
+                    setType('add')
+                    doubleCheck()
+                }}>
                     <p>Add</p>
                 </button>
             </div>

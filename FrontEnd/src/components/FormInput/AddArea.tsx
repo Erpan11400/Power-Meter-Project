@@ -1,7 +1,12 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
-export default function AddArea() {
+interface props {
+    setType: Dispatch<SetStateAction<string>>
+    doubleCheck: () => void
+}
+
+export default function AddArea({ setType, doubleCheck }: props) {
     const [maxCode, setMaxCode] = useState(15)
     const [maxName, setMaxName] = useState(15)
     // Get data berdasarkan database
@@ -13,7 +18,7 @@ export default function AddArea() {
     })
 
     const onChangeInput = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setAreaInput(prev => ({
             ...prev,
             [name]: value
@@ -22,9 +27,9 @@ export default function AddArea() {
         else if (name === 'areaName') setMaxName(15 - value.length)
     }
 
-    useEffect(() => {
-        console.log(areaInput)
-    }, [areaInput])
+    // useEffect(() => {
+    //     console.log(areaInput)
+    // }, [areaInput])
 
     return (
         <>
@@ -45,7 +50,7 @@ export default function AddArea() {
             <div className="mb-30">
                 <div className="flex justify-between">
                     <p>Area Code</p>
-                    <input type="text" name="areaCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaCode} onChange={onChangeInput} />
+                    <input type="text" name="areaCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaCode} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxCode > 14 ? (<p className="text-end text-xs">Max Letter: {maxCode}</p>) : maxCode > 5 ? (<p className="text-end text-xs">{maxCode} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxCode} Letter Left</p>)
@@ -54,14 +59,17 @@ export default function AddArea() {
             <div className="mb-40">
                 <div className="flex justify-between">
                     <p>Area Name</p>
-                    <input type="text" name="areaName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaName} onChange={onChangeInput} />
+                    <input type="text" name="areaName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaName} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxName > 14 ? (<p className="text-end text-xs">Max Letter: {maxName}</p>) : maxName > 5 ? (<p className="text-end text-xs">{maxName} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxName} Letter Left</p>)
                 }
             </div>
             <div className="flex justify-end">
-                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl">
+                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl" onClick={() => {
+                    setType('add')
+                    doubleCheck()
+                }}>
                     <p>Add</p>
                 </button>
             </div>

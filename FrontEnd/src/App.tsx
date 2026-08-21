@@ -22,7 +22,7 @@ export default function App() {
           <Route path='/manage-power-meter' element={<ManagePowerMeter />} />
           <Route path='/manage-power-meter/edit-pm/:id' element={<ManagePowerMeter />} />
           <Route path='/setting' element={<Setting />} />
-          <Route path='/user-setting' element={<UserSetting />} />
+          <Route path='/user-setting/:menu' element={<UserSetting />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </div>

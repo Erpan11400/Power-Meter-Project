@@ -1,8 +1,13 @@
-import { useEffect, useState, type ChangeEvent } from 'react'
+import { useEffect, useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { useParams } from 'react-router-dom'
 
-export default function EditArea() {
+interface props {
+    setType: Dispatch<SetStateAction<string>>
+    doubleCheck: () => void
+}
+
+export default function EditArea({ setType, doubleCheck }: props) {
     const { id } = useParams()
     const [maxCode, setMaxCode] = useState(15)
     const [maxName, setMaxName] = useState(15)
@@ -16,7 +21,7 @@ export default function EditArea() {
     })
 
     const onChangeInput = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setAreaInput(prev => ({
             ...prev,
             [name]: value
@@ -48,7 +53,7 @@ export default function EditArea() {
             <div className="mb-30">
                 <div className="flex justify-between">
                     <p>New Area Code</p>
-                    <input type="text" name="areaCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaCode} onChange={onChangeInput} />
+                    <input type="text" name="areaCode" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaCode} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxCode > 14 ? (<p className="text-end text-xs">Max Letter: {maxCode}</p>) : maxCode > 5 ? (<p className="text-end text-xs">{maxCode} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxCode} Letter Left</p>)
@@ -57,7 +62,7 @@ export default function EditArea() {
             <div className="mb-30">
                 <div className="flex justify-between">
                     <p>New Area Name</p>
-                    <input type="text" name="areaName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaName} onChange={onChangeInput} />
+                    <input type="text" name="areaName" className="w-191 ps-10 py-3 bg-white border-2 border-cGreen1 rounded-3xl outline-none" value={areaInput.areaName} onChange={onChangeInput} maxLength={15} />
                 </div>
                 {
                     maxName > 14 ? (<p className="text-end text-xs">Max Letter: {maxName}</p>) : maxName > 5 ? (<p className="text-end text-xs">{maxName} Letter Left</p>) : (<p className="text-end text-cRed text-xs">{maxName} Letter Left</p>)
@@ -66,7 +71,7 @@ export default function EditArea() {
             <div className="mb-40 flex justify-between">
                 <p>Status Active</p>
                 <button
-                    className={`relative w-100 h-35 rounded-full transition-colors duration-300 ${areaInput.isActive ? "bg-cGreen2" : "bg-cRed"}`} onClick={() => setAreaInput(prev => ({...prev, isActive: !prev.isActive}))}>
+                    className={`relative w-100 h-35 rounded-full transition-colors duration-300 ${areaInput.isActive ? "bg-cGreen2" : "bg-cRed"}`} onClick={() => setAreaInput(prev => ({ ...prev, isActive: !prev.isActive }))}>
                     <div className={`absolute top-5 w-25 h-25 bg-white rounded-full transition-transform duration-300 ${areaInput.isActive ? "translate-x-70" : "translate-x-5"}`} />
 
                     <span className={`absolute top-1/2 -translate-y-1/2 transition-all duration-300 ${areaInput.isActive ? "left-16 text-black" : "right-10 text-white"}`}>
@@ -78,8 +83,11 @@ export default function EditArea() {
                 <button className="px-24 py-3 bg-white border-2 border-cYellow shadow-[0px_4px_7px_#FFE944] rounded-xl" onClick={() => window.location.href = '/manage-area'}>
                     <p>Cancel</p>
                 </button>
-                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl">
-                    <p>Add</p>
+                <button className="px-24 py-3 bg-white border-2 border-cGreen1 shadow-[0px_4px_7px_#7CFF79] rounded-xl" onClick={() => {
+                    setType('change')
+                    doubleCheck()
+                }}>
+                    <p>Update</p>
                 </button>
             </div>
         </>
